@@ -1,0 +1,52 @@
+How to Install Apache Airflow on AWS EC2 Instance? : https://blog.devgenius.io/how-to-install-apache-airflow-on-aws-ec2-instance-812be54eb553
+
+
+sudo pip install s3fs
+airflow standalone
+sudo apt  install awscli
+aws configure
+aws sts get-session-token
+
+
+
+
+*****************************************************************
+sudo apt update
+
+sudo apt install python3-pip
+
+sudo apt install sqlite3
+
+sudo apt install python3.10-venv
+
+sudo apt-get install libpq-dev
+
+source venv/bin/activate
+
+pip install "apache-airflow[postgres]==2.5.0" --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.5.0/constraints-3.7.txt"   3.7 means is the python current version
+
+airflow db init
+
+sudo apt-get install postgresql postgresql-contrib
+
+sudo -i -u postgres
+
+psql
+
+CREATE DATABASE airflow;
+CREATE USER airflow WITH PASSWORD 'airflow';
+GRANT ALL PRIVILEGES ON DATABASE airflow TO airflow;
+
+sed -i 's#sqlite:////home/ubuntu/airflow/airflow.db#postgresql+psycopg2://airflow:airflow@localhost/airflow#g' airflow.cfg
+
+sed -i 's#SequentialExecutor#LocalExecutor#g' airflow.cfg
+
+airflow db init
+
+airflow users create -u airflow -f airflow -l airflow -r Admin -e airflow@gmail.com
+
+airflow webserver &
+
+airflow scheduler
+
+https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
